@@ -69,7 +69,7 @@ class _AppPageState extends State<AppPage> with TickerProviderStateMixin {
           child: Container(
             alignment: Alignment.center,
             padding: const EdgeInsets.all(10.0),
-            child: const Text('EMPTY'),
+            child: const Text('暂无内容'),
           ),
         );
       case Error():
@@ -166,7 +166,7 @@ class _AppPageState extends State<AppPage> with TickerProviderStateMixin {
                     //   ),
                     // );
                   },
-                  tooltip: 'Create Feed',
+                  tooltip: '发布动态',
                   child: const Icon(Icons.add),
                 )
               : const SizedBox(),
@@ -191,7 +191,7 @@ class _AppPageState extends State<AppPage> with TickerProviderStateMixin {
                             'pageParam': controller.id!,
                           }),
                           icon: const Icon(Icons.search),
-                          tooltip: 'Search',
+                          tooltip: '搜索',
                         ),
                       PopupMenuButton(
                         onSelected: (AppMenuItem item) {
@@ -232,15 +232,17 @@ class _AppPageState extends State<AppPage> with TickerProviderStateMixin {
                                 .map((item) => PopupMenuItem<AppMenuItem>(
                                       value: item,
                                       child: Text(
-                                        item == AppMenuItem.Block
-                                            ? (controller.isBlocked
-                                                ? 'UnBlock'
-                                                : 'Block')
-                                            : item == AppMenuItem.Follow
-                                                ? (controller.isFollow
-                                                    ? 'UnFollow'
-                                                    : 'Follow')
-                                                : item.name,
+                                        item == AppMenuItem.Copy
+                                            ? '复制'
+                                            : item == AppMenuItem.Share
+                                                ? '分享'
+                                                : item == AppMenuItem.Follow
+                                                    ? (controller.isFollow
+                                                        ? '取消关注'
+                                                        : '关注')
+                                                    : (controller.isBlocked
+                                                        ? '取消屏蔽'
+                                                        : '屏蔽'),
                                       ),
                                     ))
                                 .toList(),
@@ -311,7 +313,7 @@ class _AppPageState extends State<AppPage> with TickerProviderStateMixin {
                         })
                       : Center(
                           child: Text(controller.isBlocked
-                              ? '${controller.appName} is Blocked'
+                              ? '${controller.appName} 已被屏蔽'
                               : controller.commentStatusText!),
                         ),
                 )

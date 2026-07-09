@@ -57,7 +57,7 @@ class _UserPageState extends State<UserPage> {
           child: Container(
             alignment: Alignment.center,
             padding: const EdgeInsets.all(10.0),
-            child: const Text('EMPTY'),
+            child: const Text('暂无内容'),
           ),
         );
       case Error():
@@ -94,11 +94,10 @@ class _UserPageState extends State<UserPage> {
               height: 80,
               alignment: Alignment.center,
               padding: const EdgeInsets.all(10.0),
-              child: const Text('EMPTY'),
+              child: const Text('暂无内容'),
             ),
-          ),
-        );
-      case Error():
+          );
+        case Error():
         return SliverToBoxAdapter(
           child: GestureDetector(
             onTap: _userController.isBlocked
@@ -234,7 +233,7 @@ class _UserPageState extends State<UserPage> {
                         'pageParam': _userController.uid,
                       }),
                       icon: const Icon(Icons.search),
-                      tooltip: 'Search',
+                      tooltip: '搜索',
                     ),
                   PopupMenuButton(
                     onSelected: (UserMenuItem item) {
@@ -264,7 +263,7 @@ class _UserPageState extends State<UserPage> {
                           if (Utils.isSupportWebview()) {
                             Utils.report(_userController.uid, ReportType.User);
                           } else {
-                            SmartDialog.showToast('not supported');
+                            SmartDialog.showToast('不支持');
                           }
                           break;
                         case UserMenuItem.UserInfo:
@@ -294,13 +293,19 @@ class _UserPageState extends State<UserPage> {
                     itemBuilder: (BuildContext context) => UserMenuItem.values
                         .map((item) => PopupMenuItem<UserMenuItem>(
                               value: item,
-                              child: item == UserMenuItem.Block
-                                  ? Text(
-                                      _userController.isBlocked
-                                          ? 'UnBlock'
-                                          : 'Block',
-                                    )
-                                  : Text(item.name),
+                              child: item == UserMenuItem.Copy
+                                  ? const Text('复制')
+                                  : item == UserMenuItem.Share
+                                      ? const Text('分享')
+                                      : item == UserMenuItem.Block
+                                          ? Text(
+                                              _userController.isBlocked
+                                                  ? '取消屏蔽'
+                                                  : '屏蔽',
+                                            )
+                                          : item == UserMenuItem.Report
+                                              ? const Text('举报')
+                                              : const Text('用户信息'),
                             ))
                         .toList(),
                   ),
