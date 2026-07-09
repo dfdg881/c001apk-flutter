@@ -30,10 +30,10 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     return switch (type) {
       TabType.FOLLOW => '关注',
       TabType.APP => '应用',
-      TabType.FEED => '动态',
+      TabType.FEED => '头条',
       TabType.HOT => '热门',
       TabType.TOPIC => '话题',
-      TabType.PRODUCT => '产品',
+      TabType.PRODUCT => '数码',
       TabType.COOLPIC => '酷图',
       TabType.NONE => '',
     };
