@@ -106,14 +106,22 @@ class _ChatPageState extends State<ChatPage> {
                     if (Utils.isSupportWebview()) {
                       Utils.report(_uid, ReportType.User);
                     } else {
-                      SmartDialog.showToast('not supported');
+                      SmartDialog.showToast('不支持');
                     }
                     break;
                 }
               },
               itemBuilder: (context) => ChatMenuType.values
-                  .map((item) =>
-                      PopupMenuItem(value: item, child: Text(item.name)))
+                  .map((item) => PopupMenuItem(
+                        value: item,
+                        child: Text(
+                          switch (item) {
+                            ChatMenuType.Check => '查看',
+                            ChatMenuType.Block => '屏蔽',
+                            ChatMenuType.Report => '举报',
+                          },
+                        ),
+                      ))
                   .toList())
         ],
       ),

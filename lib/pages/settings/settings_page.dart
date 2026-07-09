@@ -97,7 +97,7 @@ class _SettingsPageState extends State<SettingsPage>
           const ItemTitle(title: Constants.APP_NAME),
           const EdittextItem(
             icon: Icons.smartphone,
-            title: 'SZLM ID',
+            title: '数字联盟ID',
             boxKey: SettingsBoxKey.szlmId,
             needUpdateXAppDevice: true,
           ),

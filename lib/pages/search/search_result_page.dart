@@ -130,7 +130,12 @@ class _SearchResultPageState extends State<SearchResultPage>
                                 children: [
                                   Expanded(
                                     flex: 1,
-                                    child: Text(item.name),
+                                    child: Text(
+                                      switch (item) {
+                                        SearchMenuType.Type => '类型',
+                                        SearchMenuType.Sort => '排序',
+                                      },
+                                    ),
                                   ),
                                   const Icon(Icons.arrow_right)
                                 ],
@@ -147,7 +152,14 @@ class _SearchResultPageState extends State<SearchResultPage>
                 controller: _tabController,
                 tabs: SearchContentType.values
                     .map((type) => Tab(
-                          text: type.name,
+                          text: switch (type) {
+                            SearchContentType.FEED => '动态',
+                            SearchContentType.APP => '应用',
+                            SearchContentType.GAME => '游戏',
+                            SearchContentType.TOPIC => '话题',
+                            SearchContentType.PRODUCT => '产品',
+                            SearchContentType.USER => '用户',
+                          },
                         ))
                     .toList(),
                 onTap: (index) {
@@ -204,10 +216,36 @@ class _SearchResultPageState extends State<SearchResultPage>
           RelativeRect.fromLTRB(screenSize.width, 0, 0, screenSize.height),
       items: isSearchType
           ? SearchType.values
-              .map((type) => PopupMenuItem(value: type, child: Text(type.name)))
+              .map((type) => PopupMenuItem(
+                    value: type,
+                    child: Text(
+                      switch (type) {
+                        SearchType.ALL => '全部',
+                        SearchType.FEED => '动态',
+                        SearchType.ARTICLE => '文章',
+                        SearchType.COOLPIC => '酷图',
+                        SearchType.COMMENT => '评论',
+                        SearchType.RATING => '评分',
+                        SearchType.ANSWER => '回答',
+                        SearchType.QUESTION => '提问',
+                        SearchType.VOTE => '投票',
+                      },
+                    ),
+                  ))
               .toList()
           : SearchSortType.values
-              .map((type) => PopupMenuItem(value: type, child: Text(type.name)))
+              .map((type) => PopupMenuItem(
+                    value: type,
+                    child: Text(
+                      switch (type) {
+                        SearchSortType.DATELINE => '最新',
+                        SearchSortType.DEFAULT => '默认',
+                        SearchSortType.HOT => '热门',
+                        SearchSortType.REPLY => '回复',
+                        SearchSortType.STRICT => '严格',
+                      },
+                    ),
+                  ))
               .toList(),
       elevation: 8.0,
     ).then((value) {

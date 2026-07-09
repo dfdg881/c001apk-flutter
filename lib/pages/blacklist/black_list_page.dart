@@ -61,7 +61,7 @@ class _BlackListPageState extends State<BlackListPage> {
             },
             decoration: InputDecoration(
               border: InputBorder.none,
-              hintText: _type == BlackListType.user ? 'uid' : 'topic',
+              hintText: _type == BlackListType.user ? 'uid' : '话题名称',
               hintStyle: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.normal,

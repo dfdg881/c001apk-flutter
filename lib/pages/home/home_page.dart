@@ -26,7 +26,20 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   // late final _config = Provider.of<AppConfigProvider>(context, listen: false);
   // late bool _showFab = true; //_config.isLogin;
 
-  final _tabList = TabType.values.map((type) => Tab(text: type.name)).toList();
+  String _tabName(TabType type) {
+    return switch (type) {
+      TabType.FOLLOW => '关注',
+      TabType.APP => '应用',
+      TabType.FEED => '动态',
+      TabType.HOT => '热门',
+      TabType.TOPIC => '话题',
+      TabType.PRODUCT => '产品',
+      TabType.COOLPIC => '酷图',
+      TabType.NONE => '',
+    };
+  }
+
+  final _tabList = TabType.values.map((type) => Tab(text: _tabName(type))).toList();
 
   final _pages = [
     const HomeFeedPage(tabType: TabType.FOLLOW),
