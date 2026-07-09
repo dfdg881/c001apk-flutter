@@ -96,8 +96,9 @@ class _UserPageState extends State<UserPage> {
               padding: const EdgeInsets.all(10.0),
               child: const Text('暂无内容'),
             ),
-          );
-        case Error():
+          ),
+        );
+      case Error():
         return SliverToBoxAdapter(
           child: GestureDetector(
             onTap: _userController.isBlocked
