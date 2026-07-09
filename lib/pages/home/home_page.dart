@@ -26,7 +26,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   // late final _config = Provider.of<AppConfigProvider>(context, listen: false);
   // late bool _showFab = true; //_config.isLogin;
 
-  String _tabName(TabType type) {
+  static String _tabName(TabType type) {
     return switch (type) {
       TabType.FOLLOW => '关注',
       TabType.APP => '应用',
