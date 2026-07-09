@@ -157,7 +157,7 @@ class _SearchResultPageState extends State<SearchResultPage>
                             SearchContentType.APP => '应用',
                             SearchContentType.GAME => '游戏',
                             SearchContentType.TOPIC => '话题',
-                            SearchContentType.PRODUCT => '产品',
+                            SearchContentType.PRODUCT => '数码',
                             SearchContentType.USER => '用户',
                           },
                         ))
@@ -222,10 +222,10 @@ class _SearchResultPageState extends State<SearchResultPage>
                       switch (type) {
                         SearchType.ALL => '全部',
                         SearchType.FEED => '动态',
-                        SearchType.ARTICLE => '文章',
+                        SearchType.ARTICLE => '图文',
                         SearchType.COOLPIC => '酷图',
                         SearchType.COMMENT => '评论',
-                        SearchType.RATING => '评分',
+                        SearchType.RATING => '点评',
                         SearchType.ANSWER => '回答',
                         SearchType.QUESTION => '提问',
                         SearchType.VOTE => '投票',
