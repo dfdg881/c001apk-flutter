@@ -165,11 +165,14 @@ class _WebviewPageState extends State<WebviewPage> {
       ),
       body: InAppWebView(
         initialSettings: InAppWebViewSettings(
-          useHybridComposition: false,
+          useHybridComposition: true,
+          javaScriptEnabled: true,
+          domStorageEnabled: true,
           mixedContentMode: MixedContentMode.MIXED_CONTENT_ALWAYS_ALLOW,
           useShouldOverrideUrlLoading: true,
           useOnDownloadStart: true,
           clearCache: true,
+          transparentBackground: false,
           userAgent: GStorage.userAgent,
           forceDark: ForceDark.AUTO,
           algorithmicDarkeningAllowed: true,
