@@ -65,24 +65,62 @@ class FeedController extends CommonController {
         await NetworkRepo.getDataFromUrl(url: '/v6/feed/detail?id=$id');
     if (response is Success) {
       Datum data = (response.response as Datum);
-      if (data.messageRawOutput != 'null') {
-        List<dynamic> jsonList = jsonDecode(data.messageRawOutput!);
-        articleList = jsonList
-            .map((json) => FeedArticle.fromJson(json))
-            .where((item) => ['text', 'image', 'shareUrl'].contains(item.type))
-            .toList();
-        if (!data.title.isNullOrEmpty) {
-          articleList!.insert(0, FeedArticle(type: 'title', title: data.title));
+      articleList = <FeedArticle>[];
+      articleImgList = <String>[];
+
+      // 1) 优先解析富文本正文 messageRawOutput
+      final String? raw = data.messageRawOutput;
+      if (raw != null && raw != 'null' && raw.trim().isNotEmpty) {
+        try {
+          final List<dynamic> jsonList = jsonDecode(raw);
+          final parsed = jsonList
+              .map((json) => FeedArticle.fromJson(json))
+              .where((item) => ['text', 'image', 'shareUrl'].contains(item.type))
+              .toList();
+          if (parsed.isNotEmpty) {
+            articleList!.addAll(parsed);
+            // 仅当存在真正正文时才把 title 作为标题插入，
+            // 避免普通动态的 "用户名 的动态" 被当成正文显示
+            if (!data.title.isNullOrEmpty) {
+              articleList!.insert(0, FeedArticle(type: 'title', title: data.title));
+            }
+          }
+        } catch (e) {
+          articleList = <FeedArticle>[];
         }
-        if (!data.messageCover.isNullOrEmpty) {
-          articleList!
-              .insert(0, FeedArticle(type: 'image', url: data.messageCover));
+      }
+
+      // 2) messageRawOutput 为空（普通动态仅返回 message + 图片）时，
+      //    回退到 message 文本与 picArr/pic 图片构造正文
+      if (articleList!.isEmpty) {
+        if (!data.message.isNullOrEmpty) {
+          articleList!.add(FeedArticle(type: 'text', message: data.message));
         }
+        List<String> imgs = data.picArr ?? [];
+        if (imgs.isEmpty && !data.pic.isNullOrEmpty) {
+          imgs = data.pic!
+              .split(RegExp(r'[,\|]+'))
+              .map((e) => e.trim())
+              .where((e) => e.isNotEmpty)
+              .toList();
+        }
+        for (final url in imgs) {
+          articleList!.add(FeedArticle(type: 'image', url: url));
+        }
+        articleImgList = imgs;
+      } else {
         articleImgList = articleList!
             .where((item) => item.type == 'image')
             .map((item) => item.url.orEmpty)
             .toList();
       }
+
+      // 3) 封面图（如有）
+      if (!data.messageCover.isNullOrEmpty) {
+        articleList!
+            .insert(0, FeedArticle(type: 'image', url: data.messageCover));
+      }
+
       if (!data.topReplyRows.isNullOrEmpty) {
         topReply = data.topReplyRows![0];
       }
